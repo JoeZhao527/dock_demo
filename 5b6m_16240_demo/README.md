@@ -32,3 +32,5 @@ Enzyme: 5b6m, substract: CHEBI_16240, EC group: 3.1.1, index: 2, binding: Yes
 
 ### Visualize
 `pymol 5b6m_chainA.pdb docking_results.pdbqt`
+
+![5b6m.A dock with ChEBI_16240](./dock_result.png)
