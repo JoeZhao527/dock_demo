@@ -22,12 +22,19 @@ AutoDockTools
 
 ### Demo files
 Enzyme: 5b6m, substract: CHEBI_16240, EC group: 3.1.1, index: 2, binding: Yes
+
 `5b6m.cif.gz`: original downloaded file from PDB
+
 `5b6m.cif`: unzipped from `5b6m.cif.gz`
+
 `5b6m_chainA.cif`: extracted chain A from 5b6m
+
 `5b6m_chainA.pdbqt`: enzyme ready to use for autodock-vina
+
 `ChEBI_16240.sdf`: downloaded from ChEBI
+
 `substrate.pdbqt`: substrate ready to use for autodock-vina
+
 `docking_results`: dock result
 
 ### Visualize
