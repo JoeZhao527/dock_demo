@@ -1,0 +1,321 @@
+AutoDock Vina v1.2.5
+#################################################################
+# If you used AutoDock Vina in your work, please cite:          #
+#                                                               #
+# J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  #
+# AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      #
+# Field, and Python Bindings, J. Chem. Inf. Model. (2021)       #
+# DOI 10.1021/acs.jcim.1c00203                                  #
+#                                                               #
+# O. Trott, A. J. Olson,                                        #
+# AutoDock Vina: improving the speed and accuracy of docking    #
+# with a new scoring function, efficient optimization and       #
+# multithreading, J. Comp. Chem. (2010)                         #
+# DOI 10.1002/jcc.21334                                         #
+#                                                               #
+# Please see https://github.com/ccsb-scripps/AutoDock-Vina for  #
+# more information.                                             #
+#################################################################
+
+Scoring function : vina
+Rigid receptor: ./output/bind_motif/5b6m_ChEBI_16240/chain.pdbqt
+Ligand: ./output/bind_motif/5b6m_ChEBI_16240/substrate.pdbqt
+Grid center: X -2.947 Y 28.413 Z -32.121
+Grid size  : X 20 Y 20 Z 20
+Grid space : 0.375
+Exhaustiveness: 32
+CPU: 0
+Verbosity: 1
+
+Computing Vina grid ... done.
+Performing docking (random seed: 477887068) ... 
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -2.648          0          0
+   2       -2.562      1.319      1.805
+   3       -2.263      23.46       23.7
+   4       -2.247      21.25      21.71
+   5       -2.009       11.8       11.9
+   6       -1.894      20.47      21.02
+   7       -1.874      19.81      20.26
+   8        -1.73      16.68      17.21
+   9       -1.708      10.67       10.8
+  10       -1.646      18.44      18.49
+
+
+Docking completed! Results in ./output/bind_motif/5b6m_ChEBI_16240/docking_results.pdbqt
+Visualize command: pymol ./output/bind_motif/5b6m_ChEBI_16240/chain.pdb ./output/bind_motif/5b6m_ChEBI_16240/docking_results.pdbqt
+AutoDock Vina v1.2.5
+#################################################################
+# If you used AutoDock Vina in your work, please cite:          #
+#                                                               #
+# J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  #
+# AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      #
+# Field, and Python Bindings, J. Chem. Inf. Model. (2021)       #
+# DOI 10.1021/acs.jcim.1c00203                                  #
+#                                                               #
+# O. Trott, A. J. Olson,                                        #
+# AutoDock Vina: improving the speed and accuracy of docking    #
+# with a new scoring function, efficient optimization and       #
+# multithreading, J. Comp. Chem. (2010)                         #
+# DOI 10.1002/jcc.21334                                         #
+#                                                               #
+# Please see https://github.com/ccsb-scripps/AutoDock-Vina for  #
+# more information.                                             #
+#################################################################
+
+Scoring function : vina
+Rigid receptor: ./output/bind_no_motif/5b6m_ChEBI_16240/chain.pdbqt
+Ligand: ./output/bind_no_motif/5b6m_ChEBI_16240/substrate.pdbqt
+Grid center: X -7.123 Y 29.336 Z -31.101
+Grid size  : X 100 Y 100 Z 100
+Grid space : 0.375
+Exhaustiveness: 64
+CPU: 0
+Verbosity: 1
+
+Computing Vina grid ... done.
+Performing docking (random seed: -879091557) ... 
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -2.682          0          0
+   2        -2.67      22.62      23.01
+   3       -2.513      46.38      46.53
+   4       -2.417      35.79      35.92
+   5       -2.408      48.03      48.45
+   6       -2.398       23.9      24.18
+   7       -2.257      28.67      28.86
+   8       -2.231      15.26      15.66
+   9       -2.196      23.81      24.07
+  10       -2.183      16.34      16.43
+
+WARNING: Search space volume is greater than 27000 Angstrom^3 (See FAQ)
+
+Docking completed! Results in ./output/bind_no_motif/5b6m_ChEBI_16240/docking_results.pdbqt
+Visualize command: pymol ./output/bind_no_motif/5b6m_ChEBI_16240/chain.pdb ./output/bind_no_motif/5b6m_ChEBI_16240/docking_results.pdbqt
+Traceback (most recent call last):
+  File "pipeline.py", line 116, in dock
+    result = subprocess.run(
+  File "/Users/joezhao/miniconda3/envs/enzygen/lib/python3.8/subprocess.py", line 495, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+  File "/Users/joezhao/miniconda3/envs/enzygen/lib/python3.8/subprocess.py", line 1028, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+  File "/Users/joezhao/miniconda3/envs/enzygen/lib/python3.8/subprocess.py", line 1885, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/Users/joezhao/miniconda3/envs/enzygen/lib/python3.8/subprocess.py", line 1072, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['vina', '--receptor', './output/no_bind_motif/4im4_ChEBI_57540/chain.pdbqt', '--ligand', './output/no_bind_motif/4im4_ChEBI_57540/substrate.pdbqt', '--center_x', '94.910', '--center_y', '-24.395', '--center_z', '27.683', '--size_x', '20', '--size_y', '20', '--size_z', '20', '--exhaustiveness', '32', '--num_modes', '10', '--energy_range', '5', '--out', './output/no_bind_motif/4im4_ChEBI_57540/docking_results.pdbqt']' timed out after 20 seconds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "pipeline.py", line 205, in <module>
+    pipeline(
+  File "pipeline.py", line 157, in pipeline
+    dock(
+  File "pipeline.py", line 125, in dock
+    raise RuntimeError(f"Docking timed out after {timeout} seconds") from e
+RuntimeError: Docking timed out after 20 seconds
+(enzygen) joezhao@Joes-MacBook-Pro dock_demo % python pipeline.py
+^CTraceback (most recent call last):
+  File "pipeline.py", line 197, in <module>
+    pipeline(
+  File "pipeline.py", line 161, in pipeline
+    success = dock(
+  File "pipeline.py", line 118, in dock
+    result = subprocess.run(
+  File "/Users/joezhao/miniconda3/envs/enzygen/lib/python3.8/subprocess.py", line 495, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+  File "/Users/joezhao/miniconda3/envs/enzygen/lib/python3.8/subprocess.py", line 1028, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+  File "/Users/joezhao/miniconda3/envs/enzygen/lib/python3.8/subprocess.py", line 1884, in _communicate
+    ready = selector.select(timeout)
+  File "/Users/joezhao/miniconda3/envs/enzygen/lib/python3.8/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt
+
+(enzygen) joezhao@Joes-MacBook-Pro dock_demo % 
+(enzygen) joezhao@Joes-MacBook-Pro dock_demo % 
+(enzygen) joezhao@Joes-MacBook-Pro dock_demo % python pipeline.py
+AutoDock Vina v1.2.5
+#################################################################
+# If you used AutoDock Vina in your work, please cite:          #
+#                                                               #
+# J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  #
+# AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      #
+# Field, and Python Bindings, J. Chem. Inf. Model. (2021)       #
+# DOI 10.1021/acs.jcim.1c00203                                  #
+#                                                               #
+# O. Trott, A. J. Olson,                                        #
+# AutoDock Vina: improving the speed and accuracy of docking    #
+# with a new scoring function, efficient optimization and       #
+# multithreading, J. Comp. Chem. (2010)                         #
+# DOI 10.1002/jcc.21334                                         #
+#                                                               #
+# Please see https://github.com/ccsb-scripps/AutoDock-Vina for  #
+# more information.                                             #
+#################################################################
+
+Scoring function : vina
+Rigid receptor: ./output/bind_motif/5b6m_ChEBI_16240/chain.pdbqt
+Ligand: ./output/bind_motif/5b6m_ChEBI_16240/substrate.pdbqt
+Grid center: X -2.947 Y 28.413 Z -32.121
+Grid size  : X 20 Y 20 Z 20
+Grid space : 0.375
+Exhaustiveness: 32
+CPU: 0
+Verbosity: 1
+
+Computing Vina grid ... done.
+Performing docking (random seed: 1387300684) ... 
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1         -2.6          0          0
+   2       -2.544      1.333      2.138
+   3       -2.264       23.5       23.7
+   4       -2.249      21.23      21.68
+   5       -2.247      21.22      21.65
+   6       -2.002      11.96      12.01
+   7       -1.892      20.51      21.07
+   8       -1.794      19.42      19.87
+   9       -1.731       16.7      17.23
+  10       -1.705      10.55      10.69
+
+
+Docking completed! Results in ./output/bind_motif/5b6m_ChEBI_16240/docking_results.pdbqt
+Visualize command: pymol ./output/bind_motif/5b6m_ChEBI_16240/chain.pdb ./output/bind_motif/5b6m_ChEBI_16240/docking_results.pdbqt
+AutoDock Vina v1.2.5
+#################################################################
+# If you used AutoDock Vina in your work, please cite:          #
+#                                                               #
+# J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  #
+# AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      #
+# Field, and Python Bindings, J. Chem. Inf. Model. (2021)       #
+# DOI 10.1021/acs.jcim.1c00203                                  #
+#                                                               #
+# O. Trott, A. J. Olson,                                        #
+# AutoDock Vina: improving the speed and accuracy of docking    #
+# with a new scoring function, efficient optimization and       #
+# multithreading, J. Comp. Chem. (2010)                         #
+# DOI 10.1002/jcc.21334                                         #
+#                                                               #
+# Please see https://github.com/ccsb-scripps/AutoDock-Vina for  #
+# more information.                                             #
+#################################################################
+
+Scoring function : vina
+Rigid receptor: ./output/bind_no_motif/5b6m_ChEBI_16240/chain.pdbqt
+Ligand: ./output/bind_no_motif/5b6m_ChEBI_16240/substrate.pdbqt
+Grid center: X -7.123 Y 29.336 Z -31.101
+Grid size  : X 100 Y 100 Z 100
+Grid space : 0.375
+Exhaustiveness: 64
+CPU: 0
+Verbosity: 1
+
+Computing Vina grid ... done.
+Performing docking (random seed: -972845285) ... 
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -2.676          0          0
+   2       -2.664      22.56      22.94
+   3       -2.562      22.13      22.25
+   4       -2.514      46.39      46.54
+   5       -2.417      35.78      35.91
+   6       -2.404      48.01      48.43
+   7       -2.352       23.7      23.98
+   8       -2.263      28.65      28.83
+   9       -2.224      15.25      15.65
+  10       -2.183      16.32      16.41
+
+WARNING: Search space volume is greater than 27000 Angstrom^3 (See FAQ)
+
+Docking completed! Results in ./output/bind_no_motif/5b6m_ChEBI_16240/docking_results.pdbqt
+Visualize command: pymol ./output/bind_no_motif/5b6m_ChEBI_16240/chain.pdb ./output/bind_no_motif/5b6m_ChEBI_16240/docking_results.pdbqt
+Docking timed out after 20 seconds
+Traceback (most recent call last):
+  File "pipeline.py", line 213, in <module>
+    pipeline(
+  File "pipeline.py", line 161, in pipeline
+    success = dock(
+  File "pipeline.py", line 130, in dock
+    if result.returncode != 0:
+UnboundLocalError: local variable 'result' referenced before assignment
+(enzygen) joezhao@Joes-MacBook-Pro dock_demo % python pipeline.py
+Docking timed out after 20 seconds
+Docking timed out after 20 seconds
+AutoDock Vina v1.2.5
+#################################################################
+# If you used AutoDock Vina in your work, please cite:          #
+#                                                               #
+# J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  #
+# AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      #
+# Field, and Python Bindings, J. Chem. Inf. Model. (2021)       #
+# DOI 10.1021/acs.jcim.1c00203                                  #
+#                                                               #
+# O. Trott, A. J. Olson,                                        #
+# AutoDock Vina: improving the speed and accuracy of docking    #
+# with a new scoring function, efficient optimization and       #
+# multithreading, J. Comp. Chem. (2010)                         #
+# DOI 10.1002/jcc.21334                                         #
+#                                                               #
+# Please see https://github.com/ccsb-scripps/AutoDock-Vina for  #
+# more information.                                             #
+#################################################################
+
+Scoring function : vina
+Rigid receptor: ./output/no_bind_motif/1v98_ChEBI_57746/chain.pdbqt
+Ligand: ./output/no_bind_motif/1v98_ChEBI_57746/substrate.pdbqt
+Grid center: X 15.362 Y 0.799 Z 13.093
+Grid size  : X 20 Y 20 Z 20
+Grid space : 0.375
+Exhaustiveness: 32
+CPU: 0
+Verbosity: 1
+
+Computing Vina grid ... done.
+Performing docking (random seed: 1892338365) ... 
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -5.548          0          0
+   2       -5.337        2.1      3.558
+   3       -5.232      3.422      7.191
+   4       -5.193      1.836      3.066
+   5       -5.115      4.755       7.24
+   6       -5.026      4.163          7
+   7        -5.02      3.431      6.877
+   8       -5.012      2.772      3.509
+   9       -4.967      3.267      6.936
+  10       -4.926      1.852      2.872
+
+
+Docking completed! Results in ./output/no_bind_motif/1v98_ChEBI_57746/docking_results.pdbqt
+Visualize command: pymol ./output/no_bind_motif/1v98_ChEBI_57746/chain.pdb ./output/no_bind_motif/1v98_ChEBI_57746/docking_results.pdbqt
+Docking timed out after 20 seconds
+Docking timed out after 20 seconds
+Docking timed out after 20 seconds

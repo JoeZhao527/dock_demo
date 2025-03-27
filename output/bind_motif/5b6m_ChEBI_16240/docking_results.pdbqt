@@ -1,0 +1,220 @@
+MODEL 1
+REMARK VINA RESULT:    -2.600      0.000      0.000
+REMARK INTER + INTRA:          -2.600
+REMARK INTER:                  -2.600
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1     -10.488  23.163 -40.895  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1      -9.843  23.802 -40.538  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1      -9.946  23.114 -42.242  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1     -10.776  22.859 -42.687  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 2
+REMARK VINA RESULT:    -2.544      1.333      2.138
+REMARK INTER + INTRA:          -2.544
+REMARK INTER:                  -2.544
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1     -10.569  23.289 -40.518  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1      -9.835  22.651 -40.596  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1     -10.029  24.027 -39.389  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1      -9.476  23.304 -39.037  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 3
+REMARK VINA RESULT:    -2.264     23.497     23.696
+REMARK INTER + INTRA:          -2.264
+REMARK INTER:                  -2.264
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1       0.213  36.942 -25.049  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1       0.303  36.006 -25.311  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1       0.462  37.506 -26.365  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1      -0.386  37.236 -26.765  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 4
+REMARK VINA RESULT:    -2.249     21.228     21.678
+REMARK INTER + INTRA:          -2.249
+REMARK INTER:                  -2.249
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1       0.373  21.936 -23.505  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1       0.672  21.404 -24.266  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1       1.340  21.419 -22.551  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1       2.052  21.247 -23.196  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 5
+REMARK VINA RESULT:    -2.247     21.224     21.655
+REMARK INTER + INTRA:          -2.247
+REMARK INTER:                  -2.247
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1       1.331  21.421 -22.542  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1       1.092  22.052 -21.836  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1       0.405  21.929 -23.539  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1       0.053  21.062 -23.817  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 6
+REMARK VINA RESULT:    -2.002     11.961     12.006
+REMARK INTER + INTRA:          -2.002
+REMARK INTER:                  -2.002
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1      -7.073  34.083 -41.501  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1      -7.534  34.671 -40.873  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1      -6.398  35.132 -42.246  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1      -7.203  35.546 -42.610  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 7
+REMARK VINA RESULT:    -1.892     20.513     21.070
+REMARK INTER + INTRA:          -1.892
+REMARK INTER:                  -1.892
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1      -5.538  32.691 -24.168  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1      -6.501  32.539 -24.130  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1      -5.304  32.639 -22.735  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1      -4.924  31.741 -22.716  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 8
+REMARK VINA RESULT:    -1.794     19.418     19.869
+REMARK INTER + INTRA:          -1.794
+REMARK INTER:                  -1.794
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1      -0.639  21.233 -24.841  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1      -0.084  21.086 -25.631  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1       0.255  22.170 -24.182  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1       0.932  22.191 -24.884  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 9
+REMARK VINA RESULT:    -1.731     16.704     17.232
+REMARK INTER + INTRA:          -1.731
+REMARK INTER:                  -1.731
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1     -11.752  23.469 -23.871  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1     -11.935  22.791 -23.193  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1     -12.229  22.700 -25.008  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1     -11.350  22.485 -25.374  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
+MODEL 10
+REMARK VINA RESULT:    -1.705     10.545     10.692
+REMARK INTER + INTRA:          -1.705
+REMARK INTER:                  -1.705
+REMARK INTRA:                   0.000
+REMARK UNBOUND:                 0.000
+REMARK  Name = hydrogen peroxide
+REMARK  1 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  O_2
+REMARK                            x       y       z     vdW  Elec       q    Type
+REMARK                         _______ _______ _______ _____ _____    ______ ____
+ROOT
+ATOM      1  O   UNL     1      -0.415  22.508 -39.910  0.00  0.00    +0.000 OA
+ATOM      2  H   UNL     1      -0.787  23.409 -39.863  0.00  0.00    +0.000 HD
+ENDROOT
+BRANCH   1   3
+ATOM      3  O   UNL     1       0.967  22.887 -39.667  0.00  0.00    +0.000 OA
+ATOM      4  H   UNL     1       0.847  23.155 -38.736  0.00  0.00    +0.000 HD
+ENDBRANCH   1   3
+TORSDOF 1
+ENDMDL
