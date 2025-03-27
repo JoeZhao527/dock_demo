@@ -235,7 +235,7 @@ if __name__ == "__main__":
             row['pdb_chain']
         ))
     
-    TASKS = TASKS[:3]
+    # TASKS = TASKS[:3]
 
     OUTPUT_DIR = "docking_results"
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -243,7 +243,7 @@ if __name__ == "__main__":
     run_parallel_docking(
         task_list=TASKS,
         out_dir=OUTPUT_DIR,
-        workers=4  # Adjust based on your available cores
+        workers=12  # Adjust based on your available cores
     )
 
 # # Example usage
