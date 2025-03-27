@@ -2,10 +2,14 @@ import subprocess
 import numpy as np
 from pathlib import Path
 from Bio.PDB import PDBParser, Select, PDBIO
-from typing import List
+from typing import List, Tuple
 import os
 import shutil
 import warnings
+import concurrent.futures
+from functools import partial
+import pandas as pd
+
 warnings.filterwarnings("ignore")
 
 def extract_chain(input_path: str, chain_id: str, output_path: str):
@@ -50,7 +54,7 @@ def sdf_to_pdbqt(input_path: str, output_path: str):
         raise RuntimeError(f"Open Babel failed: {result.stderr}")
 
 
-def dock(protein_path: str, substrate_path: str, output_path: str, motif: str = None, timeout=20):
+def dock(protein_path: str, substrate_path: str, output_path: str, log_path, motif: str = None, timeout=600):
     """Run AutoDock Vina with optional motif-based or blind docking"""
     # Calculate binding site coordinates
     coords = []
@@ -108,7 +112,7 @@ def dock(protein_path: str, substrate_path: str, output_path: str, motif: str = 
         "--exhaustiveness", "32" if motif else "64",  # Higher for blind docking
         "--num_modes", "10",
         "--energy_range", "5",  # Wider range for blind docking
-        "--out", output_path
+        "--out", output_path,
     ]
 
     # result = subprocess.run(vina_cmd, capture_output=True, text=True)
@@ -121,8 +125,9 @@ def dock(protein_path: str, substrate_path: str, output_path: str, motif: str = 
             text=True,
             timeout=timeout  # None=no timeout, or set in seconds
         )
-        print(result.stdout)  # Print the standard output
-        print(result.stderr)  # Print any error messages
+        with open(log_path, "a") as f:
+            f.write(result.stdout)
+            f.write(result.stderr)
 
         if result.returncode != 0:
             print(f"Vina docking failed: {result.stderr}")
@@ -149,6 +154,7 @@ def pipeline(protein_file, substrate_file, motif, chain_id, out_dir):
     chain_pdbqt_path = os.path.join(output_dir, "chain.pdbqt")
     substrate_pdbqt_path = os.path.join(output_dir, "substrate.pdbqt")
     dock_output = os.path.join(output_dir, "docking_results.pdbqt")
+    dock_log_file = os.path.join(output_dir, "docking.log")
 
     # Extract chain A from PDB
     extract_chain(protein_file, chain_id, chain_pdb_path)
@@ -162,103 +168,151 @@ def pipeline(protein_file, substrate_file, motif, chain_id, out_dir):
         protein_path=chain_pdbqt_path,
         substrate_path=substrate_pdbqt_path,
         output_path=dock_output,
+        log_path=dock_log_file,
         motif=motif
     )
     
-    if success:
-        print(f"Visualize command: pymol {chain_pdb_path} {dock_output}")
-    else:
-        shutil.rmtree(output_dir)
+    # if success:
+    #     print(f"Visualize command: pymol {chain_pdb_path} {dock_output}")
+    # else:
+    #     print(f"Failure: {chain_pdb_path} {dock_output}")
 
-    # # Generate visualization command with motif highlighting
-    # pymol_cmds = [
-    #     "load " + chain_pdb_path,
-    #     "load " + dock_output,
-    #     "hide lines",
-    #     "show cartoon",
-    #     "spectrum chain"
-    # ]
-    
-    # if motif:
-    #     motif_res = "+".join(motif.split(','))
-    #     pymol_cmds += [
-    #         f"select motif_residues, resi {motif_res}",
-    #         "show sticks, motif_residues",
-    #         "color red, motif_residues",
-    #         "zoom motif_residues"
-    #     ]
-    
-    # # Fixed command generation using double quotes without escapes
-    # viz_cmd = f'pymol -c ' + ' '.join([f'-d "{cmd}"' for cmd in pymol_cmds])
-    # print(f"\nVisualization command:\n{viz_cmd}")
+
+def process_single_pair(args: Tuple, out_dir: str) -> str:
+    """Wrapper function for parallel execution"""
+    protein_file, substrate_file, motif, chain_id = args
+    try:
+        pipeline(protein_file, substrate_file, motif, chain_id, out_dir)
+        return f"Success: {protein_file} + {substrate_file}"
+    except Exception as e:
+        return f"Failed: {protein_file} + {substrate_file} - {str(e)}"
+
+
+
+def run_parallel_docking(task_list: List[Tuple], out_dir: str, workers: int = None):
+    """
+    Run multiple docking pipelines in parallel
+    Args:
+        task_list: List of tuples (protein_file, substrate_file, motif, chain_id)
+        out_dir: Output directory for all results
+        workers: Number of parallel processes (default: CPU count)
+    """
+    if not workers:
+        workers = os.cpu_count() or 4
+
+    print(f"Starting parallel docking with {workers} workers")
+    print(f"Total tasks: {len(task_list)}")
+
+    # Create process pool
+    with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as executor:
+        # Create partial function with fixed out_dir
+        process_fn = partial(process_single_pair, out_dir=out_dir)
+        
+        # Submit all tasks
+        futures = [executor.submit(process_fn, task) for task in task_list]
+        
+        # Monitor progress
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                result = future.result()
+                print(result)
+            except Exception as e:
+                print(f"Task failed with exception: {str(e)}")
+
+    print("All tasks completed")
+
 
 # Example usage
 if __name__ == "__main__":
-    pipeline(
-        protein_file="./data/pdb/5b6m.pdb",
-        substrate_file="./data/sdf/ChEBI_16240.sdf",
-        motif="20,25,36,52,63,68,81,85,87,89,91,100,102,104,105,162,163,176,188,191,192,196,198,199,209,223,225,228,235,252,292,311,334",
-        chain_id="A",
-        out_dir="./output/bind_motif"
+    df = pd.read_csv("./crawler/samples.csv")
+
+    TASKS = []
+    for row in df.to_dict('records'):
+        TASKS.append((
+            f"./crawler/pdb_files/{row['pdb_entry']}.pdb",
+            f"./crawler/chebi_sdf/{row['substrate_entry']}.sdf",
+            None,
+            row['pdb_chain']
+        ))
+    
+    TASKS = TASKS[:3]
+
+    OUTPUT_DIR = "docking_results"
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    run_parallel_docking(
+        task_list=TASKS,
+        out_dir=OUTPUT_DIR,
+        workers=4  # Adjust based on your available cores
     )
 
-    pipeline(
-        protein_file="./data/pdb/5b6m.pdb",
-        substrate_file="./data/sdf/ChEBI_16240.sdf",
-        motif=None,
-        chain_id="A",
-        out_dir="./output/bind_no_motif"
-    )
+# # Example usage
+# if __name__ == "__main__":
+    # pipeline(
+    #     protein_file="./data/pdb/5b6m.pdb",
+    #     substrate_file="./data/sdf/ChEBI_16240.sdf",
+    #     motif="20,25,36,52,63,68,81,85,87,89,91,100,102,104,105,162,163,176,188,191,192,196,198,199,209,223,225,228,235,252,292,311,334",
+    #     chain_id="A",
+    #     out_dir="./output/bind_motif"
+    # )
 
-    # timeout
-    pipeline(
-        protein_file="./data/pdb/4im4.pdb",
-        substrate_file="./data/sdf/ChEBI_57540.sdf",
-        motif="2,4,5,7,10,11,21,25,30,32,33,36,37,38,39,40,41,42,43,45,46,47,56,57,58,59,61,62,64,65,66,68,70,71,75,76,77,78,96,97,99,101,106,107,111,113,122,130,131,132,140,143,147,150,151,154,155,156,157,165,174,177",
-        chain_id="A",
-        out_dir="./output/no_bind_motif"
-    )
+    # pipeline(
+    #     protein_file="./data/pdb/5b6m.pdb",
+    #     substrate_file="./data/sdf/ChEBI_16240.sdf",
+    #     motif=None,
+    #     chain_id="A",
+    #     out_dir="./output/bind_no_motif"
+    # )
 
-    # timeout
-    pipeline(
-        protein_file="./data/pdb/4im4.pdb",
-        substrate_file="./data/sdf/ChEBI_57540.sdf",
-        motif=None,
-        chain_id="A",
-        out_dir="./output/no_bind_no_motif"
-    )
+    # # timeout
+    # pipeline(
+    #     protein_file="./data/pdb/4im4.pdb",
+    #     substrate_file="./data/sdf/ChEBI_57540.sdf",
+    #     motif="2,4,5,7,10,11,21,25,30,32,33,36,37,38,39,40,41,42,43,45,46,47,56,57,58,59,61,62,64,65,66,68,70,71,75,76,77,78,96,97,99,101,106,107,111,113,122,130,131,132,140,143,147,150,151,154,155,156,157,165,174,177",
+    #     chain_id="A",
+    #     out_dir="./output/no_bind_motif"
+    # )
 
-    pipeline(
-        protein_file="./data/pdb/1v98.pdb",
-        substrate_file="./data/sdf/ChEBI_57746.sdf",
-        motif="2,5,7,8,10,12,13,14,18,21,32,36,37,38,40,41,46,48,57,58,60,61,65,70,72,73,79,84",
-        chain_id="A",
-        out_dir="./output/no_bind_motif"
-    )
+    # # timeout
+    # pipeline(
+    #     protein_file="./data/pdb/4im4.pdb",
+    #     substrate_file="./data/sdf/ChEBI_57540.sdf",
+    #     motif=None,
+    #     chain_id="A",
+    #     out_dir="./output/no_bind_no_motif"
+    # )
 
-    # timeout
-    pipeline(
-        protein_file="./data/pdb/1v98.pdb",
-        substrate_file="./data/sdf/ChEBI_57746.sdf",
-        motif=None,
-        chain_id="A",
-        out_dir="./output/no_bind_no_motif"
-    )
+    # pipeline(
+    #     protein_file="./data/pdb/1v98.pdb",
+    #     substrate_file="./data/sdf/ChEBI_57746.sdf",
+    #     motif="2,5,7,8,10,12,13,14,18,21,32,36,37,38,40,41,46,48,57,58,60,61,65,70,72,73,79,84",
+    #     chain_id="A",
+    #     out_dir="./output/no_bind_motif"
+    # )
 
-    # timeout
-    pipeline(
-        protein_file="./data/pdb/1cl0.pdb",
-        substrate_file="./data/sdf/ChEBI_58349.sdf",
-        motif="3,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25,26,28,31,32,33,35,39,40,45,48,49,50,52,53,56,58,60,67,69,73,77,78,83,84,85,86,87,90,92,93,95,97,98,101,102,103,105,107,108,109,110,111,112,113,114,115,118,119,120,121,123,128,130,131,132,133,134,135,137,140,143,144,147,149,150,151,152,153,157,158,159,160,161,163,166,167,168,169,170,173,174,175,176,177,180,181,183,184,187,188,189,196,197,198,200,202,203,208,209,211,212,216,218,230,235,236,237,239,241,242,243,244,245,246,248,249,250,251,260,261,262,263,264,268,271,273,277,279,280,281,282,283,284,285,286,288,290,292,293,294,295,296,298,299,301,304,305,306,307,308,309,312",
-        chain_id="A",
-        out_dir="./output/bind_motif"
-    )
+    # # timeout
+    # pipeline(
+    #     protein_file="./data/pdb/1v98.pdb",
+    #     substrate_file="./data/sdf/ChEBI_57746.sdf",
+    #     motif=None,
+    #     chain_id="A",
+    #     out_dir="./output/no_bind_no_motif"
+    # )
 
-    # timeout
-    pipeline(
-        protein_file="./data/pdb/1cl0.pdb",
-        substrate_file="./data/sdf/ChEBI_58349.sdf",
-        motif=None,
-        chain_id="A",
-        out_dir="./output/bind_no_motif"
-    )
+    # # timeout
+    # pipeline(
+    #     protein_file="./data/pdb/1cl0.pdb",
+    #     substrate_file="./data/sdf/ChEBI_58349.sdf",
+    #     motif="3,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25,26,28,31,32,33,35,39,40,45,48,49,50,52,53,56,58,60,67,69,73,77,78,83,84,85,86,87,90,92,93,95,97,98,101,102,103,105,107,108,109,110,111,112,113,114,115,118,119,120,121,123,128,130,131,132,133,134,135,137,140,143,144,147,149,150,151,152,153,157,158,159,160,161,163,166,167,168,169,170,173,174,175,176,177,180,181,183,184,187,188,189,196,197,198,200,202,203,208,209,211,212,216,218,230,235,236,237,239,241,242,243,244,245,246,248,249,250,251,260,261,262,263,264,268,271,273,277,279,280,281,282,283,284,285,286,288,290,292,293,294,295,296,298,299,301,304,305,306,307,308,309,312",
+    #     chain_id="A",
+    #     out_dir="./output/bind_motif"
+    # )
+
+    # # timeout
+    # pipeline(
+    #     protein_file="./data/pdb/1cl0.pdb",
+    #     substrate_file="./data/sdf/ChEBI_58349.sdf",
+    #     motif=None,
+    #     chain_id="A",
+    #     out_dir="./output/bind_no_motif"
+    # )

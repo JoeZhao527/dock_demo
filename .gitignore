@@ -3,3 +3,5 @@ __pycache__/
 enzygen_bench
 crawler/*
 !crawler/download.py
+*.ipynb
+docking_results/

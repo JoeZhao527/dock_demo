@@ -71,7 +71,7 @@ def download_chebi_sdf_files(chebi_list, save_dir="chebi_sdf", max_workers=5):
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         executor.map(lambda chebi_id: download_chebi_sdf(chebi_id, save_dir), chebi_list)
 
-import json
+
 with open("../enzygen_bench/enzyme_substrate_data_lucky_best.json", 'r') as f:
     data = json.load(f)
 
